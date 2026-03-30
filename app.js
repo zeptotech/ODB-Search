@@ -175,7 +175,7 @@ function buildDetail(drug) {
     const nabClass = p.notABenefit ? ' nab' : '';
     h += `<div class="product-chip${nabClass}">`;
     h += esc(p.name);
-    h += `<span class="din">${esc(p.din)}</span>`;
+    h += `<span class="din"><span class="din-label">DIN</span> ${esc(p.din)}</span>`;
     if (p.notABenefit) h += `<span class="nab-label">not reimbursed</span>`;
     h += '</div>';
     if (p.note) {

@@ -137,7 +137,7 @@ function buildDetail(drug) {
   if (drug.luCriteria && drug.luCriteria.length > 0) {
     h += '<div class="detail-section detail-lu">';
     h += '<table class="lu-table">';
-    h += '<thead><tr><th class="lu-col-code">Reason For Use Code</th><th>Clinical Criteria</th></tr></thead>';
+    h += '<thead><tr><th class="lu-col-code">LU (Limited Use) Code</th><th>Clinical Criteria</th></tr></thead>';
     h += '<tbody>';
 
     drug.luCriteria.forEach(note => {

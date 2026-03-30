@@ -179,6 +179,75 @@ tbody td {
   color: #1e40af;
 }
 
+/* ─── Drug nav (header drug mode) ───────────────────────── */
+.drug-nav-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.15rem 0;
+}
+
+#back-btn {
+  padding: 0.4rem 0.65rem;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+#back-btn:hover { background: rgba(255,255,255,0.25); }
+
+#drug-nav-title {
+  color: #93c5fd;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ─── Drug page ──────────────────────────────────────────── */
+.drug-page-header {
+  background: #fff;
+  border-radius: 6px;
+  padding: 1.25rem 1.5rem 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.drug-page-name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1e3a5f;
+  margin-bottom: 0.2rem;
+}
+
+.drug-page-meta {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 0.65rem;
+}
+
+.drug-page-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+#drug-view .detail-content {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+/* Print title block — hidden on screen */
+.print-title { display: none; }
+
 /* ─── Detail row ─────────────────────────────────────────── */
 tr.detail-row td {
   padding: 0;
@@ -380,7 +449,54 @@ footer {
 @media print {
   @page { size: portrait; margin: 1.5cm; }
 
-  /* Header */
+  body { background: #fff; font-size: 11px; }
+  main { margin: 0; padding: 0; }
+  footer { display: none; }
+
+  /* ── Shared badge/pill styles ── */
+  .badge { background: none !important; font-size: 9px; padding: 0.1rem 0.3rem; }
+  .badge-gb  { border: 1px solid #15803d; color: #15803d !important; }
+  .badge-lu  { border: 1px solid #92400e; color: #92400e !important; }
+  .badge-nab { border: 1px solid #991b1b; color: #991b1b !important; }
+  .lu-code { color: #000 !important; font-size: 10px; }
+  .period-pill { background: none !important; border: 1px solid #333; font-size: 9px; }
+
+  /* ── Shared LU table styles ── */
+  .lu-table { font-size: 13px; border-color: #999; }
+  .lu-table thead tr { background: #ddd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .lu-table thead th { color: #000 !important; font-size: 12px; }
+  .lu-table tbody td { padding: 0.35rem 0.5rem; }
+  .lu-code-cell {
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: #000 !important;
+    background: #f0f0f0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .lu-row-indication td {
+    background: #e8e8e8 !important;
+    font-size: 13px !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .lu-row-period td {
+    background: #f5f5f5 !important;
+    font-weight: 700;
+    font-size: 13px;
+    border: 1px solid #999 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .lu-row-note td { font-size: 12px; background: none !important; }
+  .lu-row-warning td { font-size: 12px; background: none !important; border-left: 2px solid #333 !important; }
+  .lu-row-contraindication td { font-size: 12px; background: none !important; border-left: 2px solid #333 !important; }
+  .lu-row-continuation td:first-child { background: #f0f0f0 !important; }
+  .entry-note { background: none !important; border-left: 2px solid #aaa; font-size: 10px; color: #555; }
+
+  /* ══ Search results print ══════════════════════════════════ */
+  #header-drug-mode { display: none !important; }
+
   header {
     position: static;
     background: #fff !important;
@@ -390,90 +506,78 @@ footer {
     padding: 0.4rem 0;
   }
   header h1 { color: #000 !important; font-size: 1rem; }
-  .search-row, #data-info, #result-count { display: none; }
+  .search-row, #data-info, #result-count,
+  #header-drug-mode, #back-btn, #drug-nav-title { display: none !important; }
 
-  /* Page base */
-  body { background: #fff; font-size: 11px; }
-  main { margin: 0; padding: 0; }
-  footer { display: none; }
-
-  /* Table */
+  /* Search results table */
   table { box-shadow: none; border-radius: 0; font-size: 10px; border: 1px solid #999; }
   thead tr { background: #ddd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   thead th { color: #000 !important; padding: 0.3rem 0.5rem; }
   tbody td { padding: 0.3rem 0.5rem; }
-  tr.drug-row { background: #fff !important; }
-  tr.drug-row.expanded { background: #f5f5f5 !important; }
-  tr.drug-row { page-break-inside: avoid; }
-  .brand-name { font-size: 15px !important; color: #000 !important; }
+  tr.drug-row { background: #fff !important; page-break-inside: avoid; }
+  .brand-name { font-size: 13px !important; color: #000 !important; }
   .generic-name { font-size: 11px !important; }
 
-  /* Badges — no colour fill, just borders */
-  .badge { background: none !important; font-size: 9px; padding: 0.1rem 0.3rem; }
-  .badge-gb  { border: 1px solid #15803d; color: #15803d !important; }
-  .badge-lu  { border: 1px solid #92400e; color: #92400e !important; }
-  .badge-nab { border: 1px solid #991b1b; color: #991b1b !important; }
-  .lu-code { color: #000 !important; font-size: 10px; }
-  .period-pill { background: none !important; border: 1px solid #333; font-size: 9px; }
-
-  /* Detail row */
+  /* Hide inline detail (no longer used, but just in case) */
   tr.detail-row { page-break-inside: avoid; }
   tr.detail-row td { background: #fafafa !important; border-bottom: 2px solid #999; }
-
   .detail-content { padding: 0.5rem 0.75rem; }
   .detail-section { margin-bottom: 0.75rem; }
   .detail-section h3 { font-size: 9px; padding-bottom: 0.2rem; margin-bottom: 0.4rem; }
-
-  /* LU criteria table — bumped up for readability */
-  .lu-table { font-size: 14px; border-color: #999; }
-  .lu-table thead tr { background: #ddd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .lu-table thead th { color: #000 !important; font-size: 13px; }
-  .lu-table tbody td { padding: 0.35rem 0.5rem; }
-
-  /* LU code cell — still prominent */
-  .lu-code-cell {
-    font-size: 22px !important;
-    font-weight: 900 !important;
-    color: #000 !important;
-    background: #f0f0f0 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .lu-row-indication td {
-    background: #e8e8e8 !important;
-    font-size: 14px !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* Auth period — boxed, prominent in print */
-  .lu-row-period td {
-    background: #f5f5f5 !important;
-    font-weight: 700;
-    font-size: 14px;
-    border: 1px solid #999 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .lu-row-note td { font-size: 13px; background: none !important; }
-  .lu-row-warning td { font-size: 13px; background: none !important; border-left: 2px solid #333 !important; }
-  .lu-row-contraindication td { font-size: 13px; background: none !important; border-left: 2px solid #333 !important; }
-  .lu-row-continuation td:first-child { background: #f0f0f0 !important; }
-
-  /* Products — hidden in print to save space */
   .detail-products { display: none; }
-
-  /* Therapeutic note — small and grey */
   .detail-thnote h3 { color: #aaa !important; }
-  .detail-thnote .entry-note {
-    font-size: 9px !important;
-    color: #888 !important;
+  .detail-thnote .entry-note { font-size: 9px !important; color: #888 !important; background: none !important; border-left: 2px solid #ccc; }
+
+  /* ══ Drug detail page print ════════════════════════════════ */
+  #drug-view {
+    /* Remove card shadows and borders */
+  }
+
+  #drug-view .drug-page-header { display: none; }
+
+  .print-title {
+    display: block;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid #000;
+  }
+
+  .print-title-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #000;
+    line-height: 1.2;
+  }
+
+  .print-title-meta {
+    font-size: 12px;
+    color: #333;
+    margin-top: 0.15rem;
+  }
+
+  .print-title-source {
+    font-size: 10px;
+    color: #666;
+    margin-top: 0.25rem;
+  }
+
+  #drug-view .detail-content {
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  #drug-view .detail-section { margin-bottom: 1rem; }
+  #drug-view .detail-section h3 { font-size: 10px; }
+
+  /* Show products on the drug page (only one drug, space isn't tight) */
+  #drug-view .detail-products { display: block; }
+
+  #drug-view .detail-thnote h3 { color: #555 !important; }
+  #drug-view .detail-thnote .entry-note {
+    font-size: 10px !important;
+    color: #555 !important;
     background: none !important;
     border-left: 2px solid #ccc;
   }
-
-  /* Entry note (pcg9) */
-  .entry-note { background: none !important; border-left: 2px solid #aaa; font-size: 10px; color: #555; }
 }

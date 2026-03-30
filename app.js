@@ -3,6 +3,8 @@
 let allDrugs = [];
 let currentResults = [];
 let debounceTimer = null;
+let lastQuery = '';
+let formularyDate = '';
 
 // ─── Init ────────────────────────────────────────────────────
 async function init() {
@@ -12,6 +14,7 @@ async function init() {
     const data = await res.json();
 
     allDrugs = data.drugs;
+    formularyDate = data.generated;
 
     document.getElementById('generated-date').textContent = `Formulary date: ${data.generated}`;
     document.getElementById('data-info').textContent =
@@ -23,11 +26,100 @@ async function init() {
       debounceTimer = setTimeout(() => search(input.value), 150);
     });
 
-    input.focus();
+    window.addEventListener('hashchange', router);
+    router();
+
+    if (!window.location.hash.startsWith('#drug/')) {
+      input.focus();
+    }
   } catch (e) {
     document.getElementById('prompt-message').innerHTML =
       '<p style="color:#ef4444">Error loading formulary data. Make sure formulary.json is present.</p>';
   }
+}
+
+// ─── Router ───────────────────────────────────────────────────
+function router() {
+  const match = window.location.hash.match(/^#drug\/(\d{8})$/);
+  if (match) {
+    const drug = allDrugs.find(d => d.products.some(p => p.din === match[1]));
+    if (drug) {
+      renderDrugView(drug);
+      return;
+    }
+  }
+  renderSearchView();
+}
+
+// ─── Search view ──────────────────────────────────────────────
+function renderSearchView() {
+  show('header-search-mode');
+  hide('header-drug-mode');
+  show('search-main');
+  hide('drug-view');
+  document.title = 'ODB Formulary Search';
+
+  const input = document.getElementById('search-input');
+  if (lastQuery && input.value !== lastQuery) {
+    input.value = lastQuery;
+    search(lastQuery);
+  }
+  input.focus();
+}
+
+// ─── Drug view ────────────────────────────────────────────────
+function renderDrugView(drug) {
+  hide('header-search-mode');
+  show('header-drug-mode');
+  hide('search-main');
+  show('drug-view');
+
+  document.getElementById('drug-nav-title').textContent =
+    `${drug.genericName} \u00b7 ${drug.strength} \u00b7 ${drug.form}`;
+  document.title = `${drug.genericName} \u2014 ODB Formulary`;
+
+  document.getElementById('drug-view').innerHTML = buildDrugPage(drug);
+  window.scrollTo(0, 0);
+}
+
+function buildDrugPage(drug) {
+  let h = '';
+
+  // Print-only title block (hidden on screen)
+  h += '<div class="print-title">';
+  h += `<div class="print-title-name">${esc(drug.genericName)}</div>`;
+  h += `<div class="print-title-meta">${esc(drug.category)} \u2014 ${esc(drug.strength)} \u2014 ${esc(drug.form)}</div>`;
+  h += `<div class="print-title-source">Ontario Drug Benefit Formulary \u2014 ${esc(formularyDate)}</div>`;
+  h += '</div>';
+
+  // Screen drug header
+  h += '<div class="drug-page-header">';
+  h += `<div class="drug-page-name">${esc(drug.genericName)}</div>`;
+  h += `<div class="drug-page-meta">${esc(drug.category)} \u2014 ${esc(drug.strength)} \u2014 ${esc(drug.form)}</div>`;
+  h += '<div class="drug-page-badges">';
+  h += statusBadge(drug.status);
+  if (drug.luCodes && drug.luCodes.length) {
+    h += ' ' + drug.luCodes.map(c => `<span class="lu-code">${esc(c)}</span>`).join(' ');
+  }
+  if (drug.luPeriod) h += ' ' + periodPill(drug.luPeriod);
+  h += '</div>';
+  h += '</div>';
+
+  // Detail content
+  h += buildDetail(drug);
+
+  return h;
+}
+
+function navigateToDrug(drug) {
+  lastQuery = document.getElementById('search-input').value;
+  if (!drug.products || !drug.products.length) return;
+  window.location.hash = `#drug/${drug.products[0].din}`;
+}
+
+function goBack() {
+  history.replaceState(null, '', window.location.pathname + window.location.search);
+  renderSearchView();
 }
 
 // ─── Search ──────────────────────────────────────────────────
@@ -69,10 +161,9 @@ function search(query) {
 
   renderTable(shown);
 
-  // Auto-expand when the query is exactly an 8-digit DIN
+  // Auto-navigate when the query is exactly an 8-digit DIN
   if (/^\d{8}$/.test(query) && shown.length === 1) {
-    const row = document.querySelector('#results-body tr.drug-row');
-    if (row) toggleDetail(0, shown[0], row);
+    navigateToDrug(shown[0]);
   }
 }
 
@@ -81,10 +172,9 @@ function renderTable(drugs) {
   const tbody = document.getElementById('results-body');
   tbody.innerHTML = '';
 
-  drugs.forEach((drug, idx) => {
+  drugs.forEach((drug) => {
     const row = document.createElement('tr');
     row.className = 'drug-row';
-    row.dataset.idx = idx;
 
     const productPreview = productSummary(drug.products);
 
@@ -101,32 +191,9 @@ function renderTable(drugs) {
       <td>${drug.luPeriod ? periodPill(drug.luPeriod) : '<span style="color:#9ca3af">&mdash;</span>'}</td>
     `;
 
-    row.addEventListener('click', () => toggleDetail(idx, drug, row));
+    row.addEventListener('click', () => navigateToDrug(drug));
     tbody.appendChild(row);
   });
-}
-
-// ─── Detail toggle ────────────────────────────────────────────
-function toggleDetail(idx, drug, row) {
-  const existing = document.getElementById(`detail-${idx}`);
-  if (existing) {
-    existing.remove();
-    row.classList.remove('expanded');
-    return;
-  }
-
-  row.classList.add('expanded');
-
-  const detailRow = document.createElement('tr');
-  detailRow.id = `detail-${idx}`;
-  detailRow.className = 'detail-row';
-
-  const td = document.createElement('td');
-  td.colSpan = 6;
-  td.innerHTML = buildDetail(drug);
-
-  detailRow.appendChild(td);
-  row.insertAdjacentElement('afterend', detailRow);
 }
 
 // ─── Build detail HTML ────────────────────────────────────────
@@ -145,7 +212,6 @@ function buildDetail(drug) {
       if (!text) return;
 
       if (note.type === 'T') {
-        // Indication heading — spans both columns
         h += `<tr class="lu-row-indication"><td colspan="2">${esc(text)}</td></tr>`;
       } else if (text.startsWith('LU Authorization Period:')) {
         const period = text.replace('LU Authorization Period:', '').trim();
@@ -158,10 +224,8 @@ function buildDetail(drug) {
       } else if (note.type === 'N') {
         h += `<tr class="lu-row-note"><td colspan="2"><strong>NOTE:</strong> ${esc(text).replace(/\n/g, '<br>')}</td></tr>`;
       } else if (note.reasonForUseId) {
-        // Main criteria line — code in left cell
         h += `<tr class="lu-row-criteria"><td class="lu-code-cell">${esc(note.reasonForUseId)}</td><td>${esc(text).replace(/\n/g, '<br>')}</td></tr>`;
       } else {
-        // Continuation text — empty left cell
         h += `<tr class="lu-row-continuation"><td></td><td>${esc(text).replace(/\n/g, '<br>')}</td></tr>`;
       }
     });
@@ -231,6 +295,7 @@ function hide(id) { document.getElementById(id).style.display = 'none'; }
 function clearSearch() {
   const input = document.getElementById('search-input');
   input.value = '';
+  lastQuery = '';
   input.focus();
   search('');
 }

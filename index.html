@@ -10,41 +10,53 @@
   <header>
     <div class="header-inner">
       <h1>Ontario Drug Benefit Formulary</h1>
-      <div class="search-row">
-        <input type="text" id="search-input"
-               placeholder="Search by drug name, brand name, or DIN..."
-               autocomplete="off" autocorrect="off" spellcheck="false">
-        <button id="clear-btn" onclick="clearSearch()">&#x2715; Clear</button>
-        <span id="result-count"></span>
+      <div id="header-search-mode">
+        <div class="search-row">
+          <input type="text" id="search-input"
+                 placeholder="Search by drug name, brand name, or DIN..."
+                 autocomplete="off" autocorrect="off" spellcheck="false">
+          <button id="clear-btn" onclick="clearSearch()">&#x2715; Clear</button>
+          <span id="result-count"></span>
+        </div>
+        <div id="data-info"></div>
       </div>
-      <div id="data-info"></div>
+      <div id="header-drug-mode" style="display:none">
+        <div class="drug-nav-row">
+          <button id="back-btn" onclick="goBack()">&#8592; Back to Search</button>
+          <span id="drug-nav-title"></span>
+        </div>
+      </div>
     </div>
   </header>
 
   <main>
-    <div id="prompt-message" class="message-box">
-      <p>Enter a drug name, brand name, or DIN to search the formulary.</p>
+    <div id="search-main">
+      <div id="prompt-message" class="message-box">
+        <p>Enter a drug name, brand name, or DIN to search the formulary.</p>
+      </div>
+
+      <div id="no-results" class="message-box" style="display:none">
+        <p>No results found.</p>
+      </div>
+
+      <div id="results-container" style="display:none">
+        <table id="results-table">
+          <thead>
+            <tr>
+              <th>Generic Name</th>
+              <th>Strength</th>
+              <th>Form</th>
+              <th>ODB Status</th>
+              <th>LU Code</th>
+              <th>Auth Period</th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+      </div>
     </div>
 
-    <div id="no-results" class="message-box" style="display:none">
-      <p>No results found.</p>
-    </div>
-
-    <div id="results-container" style="display:none">
-      <table id="results-table">
-        <thead>
-          <tr>
-            <th>Generic Name</th>
-            <th>Strength</th>
-            <th>Form</th>
-            <th>ODB Status</th>
-            <th>LU Code</th>
-            <th>Auth Period</th>
-          </tr>
-        </thead>
-        <tbody id="results-body"></tbody>
-      </table>
-    </div>
+    <div id="drug-view" style="display:none"></div>
   </main>
 
   <footer>

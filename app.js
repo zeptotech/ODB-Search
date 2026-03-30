@@ -186,7 +186,7 @@ function buildDetail(drug) {
 
   // ── 3. Therapeutic note (least important — shown last) ───────
   if (drug.note) {
-    h += `<div class="detail-section detail-thnote"><h3>Therapeutic Note</h3><div class="entry-note">${esc(drug.note)}</div></div>`;
+    h += `<div class="detail-section detail-thnote"><h3>Therapeutic Notes</h3><div class="entry-note">${esc(drug.note)}</div></div>`;
   }
 
   h += '</div>';

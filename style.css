@@ -346,8 +346,8 @@ tr.detail-row td {
 .lu-row-continuation td { font-size: 13px; }
 .lu-row-continuation td:first-child { background: #f8faff; }
 
-/* Therapeutic note — de-emphasized */
-.detail-thnote h3 { color: #9ca3af; }
+/* Therapeutic note — header visible, content de-emphasized */
+.detail-thnote h3 { color: #1e3a5f; }
 .detail-thnote .entry-note {
   background: #f9fafb;
   border-left-color: #cbd5e1;

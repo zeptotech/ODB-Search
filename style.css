@@ -469,45 +469,41 @@ footer {
   footer { display: none; }
 
   /* ── Shared badge/pill styles ── */
-  .badge { background: none !important; font-size: 9px; padding: 0.1rem 0.3rem; }
-  .badge-gb  { border: 1px solid #15803d; color: #15803d !important; }
-  .badge-lu  { border: 1px solid #92400e; color: #92400e !important; }
-  .badge-nab { border: 1px solid #991b1b; color: #991b1b !important; }
+  .badge { background: none !important; font-size: 9px; padding: 0.1rem 0.3rem; border: 1px solid #000; color: #000 !important; }
   .lu-code { color: #000 !important; font-size: 10px; }
-  .period-pill { background: none !important; border: 1px solid #333; font-size: 9px; }
+  .period-pill { background: none !important; border: 1px solid #000; color: #000 !important; font-size: 9px; }
 
   /* ── Shared LU table styles ── */
-  .lu-table { font-size: 13px; border-color: #999; }
-  .lu-table thead tr { background: #ddd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .lu-table thead th { color: #000 !important; font-size: 12px; }
+  .lu-table { font-size: 13px; border: 1px solid #000; }
+  .lu-table thead tr { background: none !important; border-bottom: 2px solid #000; }
+  .lu-table thead th { color: #000 !important; font-size: 12px; font-weight: 700; }
   .lu-table tbody td { padding: 0.35rem 0.5rem; }
   .lu-code-cell {
     font-size: 20px !important;
     font-weight: 900 !important;
     color: #000 !important;
-    background: #f0f0f0 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+    background: none !important;
+    border-right: 1px solid #000;
   }
   .lu-row-indication td {
-    background: #e8e8e8 !important;
+    background: none !important;
     font-size: 13px !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+    font-weight: 700;
+    border-top: 1px solid #000 !important;
+    border-bottom: 1px solid #000 !important;
   }
   .lu-row-period td {
-    background: #f5f5f5 !important;
+    background: none !important;
     font-weight: 700;
     font-size: 13px;
-    border: 1px solid #999 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+    border-top: 1px solid #000 !important;
+    border-bottom: 1px solid #000 !important;
   }
-  .lu-row-note td { font-size: 12px; background: none !important; }
-  .lu-row-warning td { font-size: 12px; background: none !important; border-left: 2px solid #333 !important; }
-  .lu-row-contraindication td { font-size: 12px; background: none !important; border-left: 2px solid #333 !important; }
-  .lu-row-continuation td:first-child { background: #f0f0f0 !important; }
-  .entry-note { background: none !important; border-left: 2px solid #aaa; font-size: 10px; color: #555; }
+  .lu-row-note td { font-size: 12px; background: none !important; font-style: italic; }
+  .lu-row-warning td { font-size: 12px; background: none !important; border-left: 2px solid #000 !important; }
+  .lu-row-contraindication td { font-size: 12px; background: none !important; border-left: 2px solid #000 !important; }
+  .lu-row-continuation td:first-child { background: none !important; }
+  .entry-note { background: none !important; border-left: 2px solid #000; font-size: 10px; color: #000; }
 
   /* ══ Search results print ══════════════════════════════════ */
   #header-drug-mode { display: none !important; }
@@ -525,9 +521,9 @@ footer {
   #header-drug-mode, #back-btn, #drug-nav-title { display: none !important; }
 
   /* Search results table */
-  table { box-shadow: none; border-radius: 0; font-size: 10px; border: 1px solid #999; }
-  thead tr { background: #ddd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  thead th { color: #000 !important; padding: 0.3rem 0.5rem; }
+  table { box-shadow: none; border-radius: 0; font-size: 10px; border: 1px solid #000; }
+  thead tr { background: none !important; border-bottom: 2px solid #000; }
+  thead th { color: #000 !important; padding: 0.3rem 0.5rem; font-weight: 700; }
   tbody td { padding: 0.3rem 0.5rem; }
   tr.drug-row { background: #fff !important; page-break-inside: avoid; }
   .brand-name { font-size: 13px !important; color: #000 !important; }
@@ -592,8 +588,7 @@ footer {
   #drug-view .detail-section { margin-bottom: 1rem; }
   #drug-view .detail-section h3 { font-size: 10px; }
 
-  /* Show products on the drug page (only one drug, space isn't tight) */
-  #drug-view .detail-products { display: block; }
+  #drug-view .detail-products { display: none; }
 
   #drug-view .detail-thnote h3 { color: #555 !important; }
   #drug-view .detail-thnote .entry-note {

@@ -53,13 +53,6 @@ def build_formulary(input_file='formulary.xml', output_file='formulary.json'):
                     if rid and rid not in lu_codes:
                         lu_codes.append(rid)
 
-                # Words from the generic name used to detect manufacturer-prefixed
-                # generics (e.g. "Ran-Cefprozil" contains "cefprozil").
-                # Only use words of 4+ characters to avoid short false matches.
-                generic_words = [
-                    w.lower() for w in generic.replace('&', ' ').split()
-                    if len(w) >= 4
-                ]
 
                 for pcg9 in pcg_group.findall('pcg9'):
                     strength = pcg9.findtext('strength', '')
@@ -79,13 +72,7 @@ def build_formulary(input_file='formulary.xml', output_file='formulary.json'):
                         if not not_benefit:
                             any_benefit = True
 
-                        # Only index the brand name if it doesn't contain a
-                        # generic ingredient word — filters out manufacturer-
-                        # prefixed generics like "Ran-Cefprozil", "Act Celecoxib"
-                        name_lower = brand_name.lower()
-                        is_prefixed_generic = any(w in name_lower for w in generic_words)
-                        if not is_prefixed_generic:
-                            search_names.add(name_lower)
+                        search_names.add(brand_name.lower())
 
                         search_names.add(din)
 

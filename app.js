@@ -84,9 +84,11 @@ function renderDrugView(drug) {
 
 function buildDrugPage(drug) {
   let h = '';
+  const brandNames = [...new Set(drug.products.map(p => p.name))].join(', ');
 
   // Print-only title block (hidden on screen)
   h += '<div class="print-title">';
+  if (brandNames) h += `<div class="print-title-brands">${esc(brandNames)}</div>`;
   h += `<div class="print-title-name">${esc(drug.genericName)}</div>`;
   h += `<div class="print-title-meta">${esc(drug.category)} \u2014 ${esc(drug.strength)} \u2014 ${esc(drug.form)}</div>`;
   h += `<div class="print-title-source">Ontario Drug Benefit Formulary \u2014 ${esc(formularyDate)}</div>`;
@@ -94,6 +96,7 @@ function buildDrugPage(drug) {
 
   // Screen drug header
   h += '<div class="drug-page-header">';
+  if (brandNames) h += `<div class="drug-page-brands">${esc(brandNames)}</div>`;
   h += `<div class="drug-page-name">${esc(drug.genericName)}</div>`;
   h += `<div class="drug-page-meta">${esc(drug.category)} \u2014 ${esc(drug.strength)} \u2014 ${esc(drug.form)}</div>`;
   h += '<div class="drug-page-badges">';
@@ -204,7 +207,7 @@ function buildDetail(drug) {
   if (drug.luCriteria && drug.luCriteria.length > 0) {
     h += '<div class="detail-section detail-lu">';
     h += '<table class="lu-table">';
-    h += '<thead><tr><th class="lu-col-code">LU (Limited Use) Code</th><th>Clinical Criteria</th></tr></thead>';
+    h += '<thead><tr><th class="lu-col-code">LU Code</th><th>Clinical Criteria</th></tr></thead>';
     h += '<tbody>';
 
     drug.luCriteria.forEach(note => {

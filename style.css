@@ -218,10 +218,17 @@ tbody td {
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
 
-.drug-page-name {
+.drug-page-brands {
   font-size: 1.5rem;
   font-weight: 800;
   color: #1e3a5f;
+  margin-bottom: 0.1rem;
+}
+
+.drug-page-name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #4b5563;
   margin-bottom: 0.2rem;
 }
 
@@ -542,11 +549,18 @@ footer {
     border-bottom: 2px solid #000;
   }
 
-  .print-title-name {
+  .print-title-brands {
     font-size: 1.5rem;
     font-weight: 800;
     color: #000;
     line-height: 1.2;
+  }
+
+  .print-title-name {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    margin-top: 0.1rem;
   }
 
   .print-title-meta {

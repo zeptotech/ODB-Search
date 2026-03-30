@@ -406,6 +406,7 @@ footer {
   /* Detail row */
   tr.detail-row { page-break-inside: avoid; }
   tr.detail-row td { background: #fafafa !important; border-bottom: 2px solid #999; }
+
   .detail-content { padding: 0.5rem 0.75rem; }
   .detail-section { margin-bottom: 0.75rem; }
   .detail-section h3 { font-size: 9px; padding-bottom: 0.2rem; margin-bottom: 0.4rem; }

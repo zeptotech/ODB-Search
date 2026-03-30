@@ -68,6 +68,12 @@ function search(query) {
       : `${currentResults.length} result${currentResults.length !== 1 ? 's' : ''}`;
 
   renderTable(shown);
+
+  // Auto-expand when the query is exactly an 8-digit DIN
+  if (/^\d{8}$/.test(query) && shown.length === 1) {
+    const row = document.querySelector('#results-body tr.drug-row');
+    if (row) toggleDetail(0, shown[0], row);
+  }
 }
 
 // ─── Render table ─────────────────────────────────────────────

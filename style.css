@@ -1,0 +1,467 @@
+/* ─── Reset ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─── Base ───────────────────────────────────────────────── */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  color: #111827;
+  background: #f3f4f6;
+  line-height: 1.5;
+}
+
+/* ─── Header ─────────────────────────────────────────────── */
+header {
+  background: #1e3a5f;
+  color: #fff;
+  padding: 0.9rem 1.25rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+.header-inner { max-width: 1200px; margin: 0 auto; }
+
+header h1 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#search-input {
+  flex: 1;
+  max-width: 520px;
+  padding: 0.45rem 0.75rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+}
+
+#clear-btn {
+  padding: 0.4rem 0.65rem;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+#clear-btn:hover { background: rgba(255,255,255,0.25); }
+
+#result-count {
+  color: #93c5fd;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+#data-info {
+  color: #7ab0d8;
+  font-size: 11px;
+  margin-top: 0.3rem;
+}
+
+/* ─── Main ───────────────────────────────────────────────── */
+main {
+  max-width: 1200px;
+  margin: 1rem auto;
+  padding: 0 1rem;
+}
+
+.message-box {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6b7280;
+}
+
+/* ─── Table ──────────────────────────────────────────────── */
+#results-container { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+thead tr {
+  background: #1e3a5f;
+  color: #fff;
+}
+
+thead th {
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+/* Drug rows */
+tr.drug-row {
+  cursor: pointer;
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.1s;
+}
+
+tr.drug-row:last-child { border-bottom: none; }
+tr.drug-row:hover { background: #eff6ff; }
+tr.drug-row.expanded { background: #dbeafe; }
+
+tbody td {
+  padding: 0.45rem 0.75rem;
+  vertical-align: middle;
+}
+
+.brand-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin-bottom: 1px;
+}
+.generic-name { font-size: 12px; color: #4b5563; }
+.category-label { font-size: 11px; color: #9ca3af; margin-top: 1px; }
+
+/* Status badges */
+.badge {
+  display: inline-block;
+  padding: 0.18rem 0.5rem;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.badge-gb  { background: #dcfce7; color: #15803d; }
+.badge-lu  { background: #fef3c7; color: #92400e; }
+.badge-nab { background: #fee2e2; color: #991b1b; }
+
+.lu-code {
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  color: #1d4ed8;
+  font-size: 13px;
+}
+
+/* Auth period pill in table */
+.period-pill {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #fef3c7;
+  color: #92400e;
+  white-space: nowrap;
+}
+
+.period-pill.indefinite {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+/* ─── Detail row ─────────────────────────────────────────── */
+tr.detail-row td {
+  padding: 0;
+  border-bottom: 2px solid #93c5fd;
+  background: #f8faff;
+}
+
+.detail-content {
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+/* Section headers inside detail */
+.detail-section { margin-bottom: 1.1rem; }
+.detail-section:last-child { margin-bottom: 0; }
+
+.detail-section h3 {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #4b5563;
+  border-bottom: 1px solid #d1d5db;
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.6rem;
+}
+
+/* Product chips */
+.products-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.product-chip {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 0.2rem 0.55rem;
+  font-size: 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+}
+
+.product-chip.nab {
+  border-color: #fca5a5;
+  color: #9ca3af;
+}
+
+.product-chip .din {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.product-chip.nab .din { color: #d1d5db; }
+
+.nab-label {
+  font-size: 10px;
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* pcg9 / drug notes */
+.entry-note {
+  background: #f0f9ff;
+  border-left: 3px solid #38bdf8;
+  padding: 0.45rem 0.65rem;
+  font-size: 12px;
+  color: #0c4a6e;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+/* ─── LU Criteria Table ──────────────────────────────────── */
+.lu-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 0.25rem;
+  border: 1px solid #cbd5e1;
+}
+
+.lu-table thead tr {
+  background: #1e3a5f;
+  color: #fff;
+}
+
+.lu-table thead th {
+  padding: 0.4rem 0.75rem;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.lu-col-code {
+  width: 6rem;
+  text-align: center !important;
+}
+
+/* All body cells */
+.lu-table tbody td {
+  padding: 0.45rem 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* LU code cell */
+.lu-code-cell {
+  font-size: 20px;
+  font-weight: 900;
+  color: #1e3a5f;
+  text-align: center;
+  vertical-align: middle !important;
+  white-space: nowrap;
+  background: #f8faff;
+}
+
+/* Indication heading row */
+.lu-row-indication td {
+  font-weight: 700;
+  font-size: 13px;
+  background: #e8eef6;
+  color: #1e3a5f;
+  padding: 0.4rem 0.75rem;
+}
+
+/* Auth period row */
+.lu-row-period td {
+  background: #fef9e7;
+  color: #78350f;
+  font-size: 12px;
+  border-top: 1px solid #fde68a;
+  border-bottom: 1px solid #fde68a;
+}
+
+.lu-row-period.indefinite td {
+  background: #eff6ff;
+  color: #1e40af;
+  border-top-color: #bfdbfe;
+  border-bottom-color: #bfdbfe;
+}
+
+/* Note row */
+.lu-row-note td {
+  background: #f8faff;
+  color: #374151;
+  font-size: 12px;
+  font-style: italic;
+}
+
+/* Warning row */
+.lu-row-warning td {
+  background: #fff7ed;
+  color: #7c2d12;
+  font-size: 12px;
+  border-left: 3px solid #f97316;
+}
+
+/* Contraindication row */
+.lu-row-contraindication td {
+  background: #fef2f2;
+  color: #7f1d1d;
+  font-size: 12px;
+  border-left: 3px solid #ef4444;
+}
+
+/* Continuation row (type R bullets) */
+.lu-row-continuation td { font-size: 13px; }
+.lu-row-continuation td:first-child { background: #f8faff; }
+
+/* Therapeutic note — de-emphasized */
+.detail-thnote h3 { color: #9ca3af; }
+.detail-thnote .entry-note {
+  background: #f9fafb;
+  border-left-color: #cbd5e1;
+  color: #6b7280;
+  font-size: 11px;
+}
+
+/* ─── Footer ─────────────────────────────────────────────── */
+footer {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+/* ─── Print ──────────────────────────────────────────────── */
+@media print {
+  @page { size: portrait; margin: 1.5cm; }
+
+  /* Header */
+  header {
+    position: static;
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none;
+    border-bottom: 2px solid #000;
+    padding: 0.4rem 0;
+  }
+  header h1 { color: #000 !important; font-size: 1rem; }
+  .search-row, #data-info, #result-count { display: none; }
+
+  /* Page base */
+  body { background: #fff; font-size: 11px; }
+  main { margin: 0; padding: 0; }
+  footer { display: none; }
+
+  /* Table */
+  table { box-shadow: none; border-radius: 0; font-size: 10px; border: 1px solid #999; }
+  thead tr { background: #ddd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  thead th { color: #000 !important; padding: 0.3rem 0.5rem; }
+  tbody td { padding: 0.3rem 0.5rem; }
+  tr.drug-row { background: #fff !important; }
+  tr.drug-row.expanded { background: #f5f5f5 !important; }
+  tr.drug-row { page-break-inside: avoid; }
+  .brand-name { font-size: 12px !important; color: #000 !important; }
+  .generic-name { font-size: 9px !important; }
+
+  /* Badges — no colour fill, just borders */
+  .badge { background: none !important; font-size: 9px; padding: 0.1rem 0.3rem; }
+  .badge-gb  { border: 1px solid #15803d; color: #15803d !important; }
+  .badge-lu  { border: 1px solid #92400e; color: #92400e !important; }
+  .badge-nab { border: 1px solid #991b1b; color: #991b1b !important; }
+  .lu-code { color: #000 !important; font-size: 10px; }
+  .period-pill { background: none !important; border: 1px solid #333; font-size: 9px; }
+
+  /* Detail row */
+  tr.detail-row { page-break-inside: avoid; }
+  tr.detail-row td { background: #fafafa !important; border-bottom: 2px solid #999; }
+  .detail-content { padding: 0.5rem 0.75rem; }
+  .detail-section { margin-bottom: 0.75rem; }
+  .detail-section h3 { font-size: 9px; padding-bottom: 0.2rem; margin-bottom: 0.4rem; }
+
+  /* LU criteria table */
+  .lu-table { font-size: 10px; border-color: #999; }
+  .lu-table thead tr { background: #ddd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .lu-table thead th { color: #000 !important; font-size: 9px; }
+  .lu-table tbody td { padding: 0.25rem 0.5rem; }
+
+  /* LU code cell — still prominent */
+  .lu-code-cell {
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    color: #000 !important;
+    background: #f0f0f0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .lu-row-indication td {
+    background: #e8e8e8 !important;
+    font-size: 10px !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Auth period — boxed, prominent in print */
+  .lu-row-period td {
+    background: #f5f5f5 !important;
+    font-weight: 700;
+    font-size: 10px;
+    border: 1px solid #999 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .lu-row-note td { font-size: 9px; background: none !important; }
+  .lu-row-warning td { font-size: 9px; background: none !important; border-left: 2px solid #333 !important; }
+  .lu-row-contraindication td { font-size: 9px; background: none !important; border-left: 2px solid #333 !important; }
+  .lu-row-continuation td:first-child { background: #f0f0f0 !important; }
+
+  /* Products — compact in print */
+  .detail-products h3 { color: #555 !important; }
+  .product-chip { font-size: 9px; padding: 0.1rem 0.3rem; border-color: #ccc; }
+  .product-chip .din { font-size: 8px; }
+
+  /* Therapeutic note — small and grey */
+  .detail-thnote h3 { color: #aaa !important; }
+  .detail-thnote .entry-note {
+    font-size: 9px !important;
+    color: #888 !important;
+    background: none !important;
+    border-left: 2px solid #ccc;
+  }
+
+  /* Entry note (pcg9) */
+  .entry-note { background: none !important; border-left: 2px solid #aaa; font-size: 10px; color: #555; }
+}

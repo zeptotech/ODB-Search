@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ODB Formulary Search</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <h1>Ontario Drug Benefit Formulary</h1>
+      <div class="search-row">
+        <input type="text" id="search-input"
+               placeholder="Search by drug name, brand name, or DIN..."
+               autocomplete="off" autocorrect="off" spellcheck="false">
+        <button id="clear-btn" onclick="clearSearch()" title="Clear search">&#x2715;</button>
+        <span id="result-count"></span>
+      </div>
+      <div id="data-info"></div>
+    </div>
+  </header>
+
+  <main>
+    <div id="prompt-message" class="message-box">
+      <p>Enter a drug name, brand name, or DIN to search the formulary.</p>
+    </div>
+
+    <div id="no-results" class="message-box" style="display:none">
+      <p>No results found.</p>
+    </div>
+
+    <div id="results-container" style="display:none">
+      <table id="results-table">
+        <thead>
+          <tr>
+            <th>Generic Name</th>
+            <th>Strength</th>
+            <th>Form</th>
+            <th>ODB Status</th>
+            <th>LU Code</th>
+            <th>Auth Period</th>
+          </tr>
+        </thead>
+        <tbody id="results-body"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer>
+    <p>Ontario Drug Benefit Formulary &mdash; <span id="generated-date"></span></p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
